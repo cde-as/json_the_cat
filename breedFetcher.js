@@ -17,15 +17,13 @@ const fetchBreedDescription = function(breedName, callback) {
 
         // Check if the user entry has a description property
         if (userEntry.description) {
-          console.log(
-            `Description for ${breedName} breed:`,
-            userEntry.description
+          callback(null, userEntry.description
           );
         } else {
-          console.log(`No description found for ${breedName} breed.`);
+          callback(`No description found for ${breedName} breed.`, null);
         }
       } else {
-        console.log(`No data found for ${breedName} breed.`);
+        callback(`No data found for ${breedName} breed.`, null);
       }
     }
   });
