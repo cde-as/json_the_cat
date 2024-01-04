@@ -7,7 +7,7 @@ if (!breedName) {
   process.exit(1);
 }
 
-const catAPI = "https://api.thecatapi.com/v1/breeds/search?q=${breedName}";
+const catAPI = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
 
 request(catAPI, (error, response, body) => {
 
@@ -17,9 +17,20 @@ request(catAPI, (error, response, body) => {
     console.error("API request failed:", response.statusCode);
   } else {
     const data = JSON.parse(body);
-    
-    console.log(data);
-    console.log(data.description);
+
+    if (Array.isArray(data) && data.length > 0) {
+      //ensures that the API includes data and is not empty
+      const userEntry = data[0];
+      
+      // Check if the user entry has a description property
+      if (userEntry.description) {
+        console.log(`Description for ${breedName} breed:`, userEntry.description);
+      } else {
+        console.log(`No description found for ${breedName} breed.`);
+      }
+    } else {
+      console.log(`No data found for ${breedName} breed.`);
+    }
   }
 });
 
